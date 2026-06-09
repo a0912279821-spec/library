@@ -313,13 +313,25 @@ void updateBook(void)
     }
     else
     {
+        int borrowed = books[index].total - books[index].stock;
+        int newTotal;
         inputString("请输入新的图书名称: ", books[index].name, sizeof(books[index].name));
         inputString("请输入新的作者名称: ", books[index].author, sizeof(books[index].author));
         inputString("请输入新的出版社: ", books[index].publisher, sizeof(books[index].publisher));
         inputDouble("请输入新的价格: ", &books[index].price);
-        inputInt("请输入新的图书总量: ", &books[index].total);
+        while (1)
+        {
+            inputInt("请输入新的图书总量: ", &newTotal);
+            if (newTotal < borrowed)
+            {
+                printf("新的总量(%d)不能小于已借出数量(%d)，请重新输入。\n", newTotal, borrowed);
+                continue;
+            }
+            break;
+        }
+        books[index].total = newTotal;
         inputInt("是否推荐(1.是 0.否): ", &books[index].recommend);
-        books[index].stock = books[index].total;
+        books[index].stock = books[index].total - borrowed;
         saveBooksToFile();
         printf("图书信息修改成功\n");
     }
