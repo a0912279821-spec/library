@@ -105,7 +105,8 @@ library/
 ├── README.md          # 项目说明文档
 ├── 图书管理系统.c      # C 语言源代码
 ├── books.txt          # 示例图书数据文件
-└── .gitignore         # Git 忽略配置
+├── .gitignore         # Git 忽略配置
+└── Makefile           # 编译运行脚本
 ```
 
 ## 我学到了什么
@@ -124,6 +125,6 @@ library/
 - [x] 增加示例数据文件
 - [x] 修复库存更新逻辑
 - [x] 添加 Mac 编译运行教程
-- [ ] 增加运行截图
+- [x] 增加运行截图
 - [ ] 把单个 C 文件拆分成多个文件
-- [ ] 增加 Makefile
+- [x] 增加 Makefile
