@@ -1,7 +1,7 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c11
+CFLAGS = -Wall -Wextra -std=c11 -Iinclude
 TARGET = library
-SRC = $(wildcard *.c)
+SRC = $(wildcard src/*.c)
 
 all: $(TARGET)
 

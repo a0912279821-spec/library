@@ -1,37 +1,14 @@
 #include <stdio.h>
 #include <string.h>
+#include "library.h"
 
-#define max 100
-
-void addBook(void);
-void listBook(void);
+/* library.c 内部使用的函数声明（不对外暴露） */
 int findBookid(int id);
-void searchBook(void);
-void deleteBook(void);
-void updateBook(void);
-void borrowBook(void);
-void returnBook(void);
-void saveBooksToFile(void);
-void loadBooksFromFile(void);
-void budgetRecommend(void);
-void dfsBuyBook(int index, double sum, int bookCount);
 void clearInputBuffer(FILE *stream);
 void readLine(FILE *stream, char str[], int size);
-int inputInt(const char *prompt, int *value);
 int inputDouble(const char *prompt, double *value);
 void inputString(const char *prompt, char str[], int size);
-
-typedef struct
-{
-    int id;//图书编号
-    char name[30];//图书名称
-    char author[30];//作者
-    char publisher[30];//出版社
-    double price;//价格
-    int total;//总数量
-    int stock;//当前库存
-    int recommend;
-}Book;
+void dfsBuyBook(int index, double sum, int bookCount);
 
 Book books[max];
 int count=0;//书的数量
@@ -176,69 +153,6 @@ void listBook(void)
         printf("推荐状态:普通\n");
         printf("-------------------\n");
     }
-}
-
-int main()
-{
-    int choice;
-    loadBooksFromFile();
-    while (1)
-    {
-        printf("==== 图书管理系统 ====\n");
-        printf("1.添加图书\n");
-        printf("2.显示全部图书\n");
-        printf("3.查询图书\n");
-        printf("4.删除图书\n");
-        printf("5.修改图书\n");
-        printf("6.借书\n");
-        printf("7.还书\n");
-        printf("8.预算购书推荐\n");
-        printf("0.退出系统\n");
-        inputInt("请输入你的选择:", &choice);
-        if (choice == 1)
-        {
-            addBook();
-        }
-        else if (choice == 2)
-        {
-            listBook();
-        }
-        else if (choice == 3)
-        {
-            searchBook();
-        }
-        else if (choice == 4)
-        {
-            deleteBook();
-        }
-        else if (choice == 5)
-        {
-            updateBook();
-        }
-        else if (choice == 6)
-        {
-            borrowBook();
-        }
-        else if (choice == 7)
-        {
-            returnBook();
-        }
-        else if (choice == 8)
-        {
-            budgetRecommend();
-        }
-        else if (choice == 0)
-        {
-            saveBooksToFile();
-            printf("程序已退出。\n");
-            break;
-        }
-        else
-        {
-            printf("输入错误，请重新输入。\n");
-        }
-    }
-    return 0;
 }
 
 int findBookid(int id)

@@ -57,22 +57,24 @@ ls
 ```text
 README.md
 books.txt
-图书管理系统.c
+include
+src
+Makefile
 ```
 
 ### 3. 编译程序
 
-由于 C 文件名是中文，手动输入容易出错，可以使用下面的命令编译当前目录下所有 C 文件：
+项目已拆分为多个文件，推荐使用 Makefile 一键编译：
 
 ```bash
-gcc *.c -o library
+make
 ```
 
 其中：
 
-- `gcc` 是 C 语言编译器
-- `*.c` 表示当前目录下所有 `.c` 文件
-- `-o library` 表示生成名为 `library` 的可执行程序
+- `make` 会读取 `Makefile`，编译 `src/` 目录下所有 `.c` 文件
+- `-Iinclude` 让编译器找到 `include/library.h` 头文件
+- 最终生成名为 `library` 的可执行程序
 
 ### 4. 运行程序
 
@@ -102,8 +104,12 @@ gcc *.c -o library
 
 ```text
 library/
+├── include/
+│   └── library.h      # 头文件：max 宏、Book 结构体、函数声明
+├── src/
+│   ├── main.c         # 主程序：main 函数与菜单分发
+│   └── library.c      # 业务逻辑实现与全局变量定义
 ├── README.md          # 项目说明文档
-├── 图书管理系统.c      # C 语言源代码
 ├── books.txt          # 示例图书数据文件
 ├── .gitignore         # Git 忽略配置
 └── Makefile           # 编译运行脚本
@@ -126,5 +132,5 @@ library/
 - [x] 修复库存更新逻辑
 - [x] 添加 Mac 编译运行教程
 - [x] 增加运行截图
-- [ ] 把单个 C 文件拆分成多个文件
+- [x] 把单个 C 文件拆分成多个文件
 - [x] 增加 Makefile
