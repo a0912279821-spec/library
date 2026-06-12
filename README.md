@@ -100,6 +100,18 @@ make
 
 输入对应数字即可使用功能，例如输入 `2` 可以显示全部图书，输入 `0` 可以退出系统。
 
+## 测试
+
+项目提供了一个简单的 smoke test，用来检查项目能否正常清理、编译、启动并退出。
+
+运行命令：
+
+    ./tests/smoke_test.sh
+
+正常情况下会看到：
+
+    Smoke test passed.
+
 ## 项目文件
 
 ```text
@@ -112,7 +124,8 @@ library/
 ├── README.md          # 项目说明文档
 ├── books.txt          # 示例图书数据文件
 ├── .gitignore         # Git 忽略配置
-└── Makefile           # 编译运行脚本
+├── Makefile           # 编译运行脚本
+└── tests/             # 测试脚本目录
 ```
 
 ## 我学到了什么
