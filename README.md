@@ -1,5 +1,7 @@
 # 图书管理系统
 
+[![Smoke Test](https://github.com/a0912279821-spec/library/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/a0912279821-spec/library/actions/workflows/smoke-test.yml)
+
 ## 项目简介
 
 这是一个基于 C 语言实现的命令行图书管理系统，适合作为 C 语言课程项目。项目支持图书信息管理、借书还书、文件保存读取等功能。
