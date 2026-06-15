@@ -149,3 +149,6 @@ library/
 - [x] 增加运行截图
 - [x] 把单个 C 文件拆分成多个文件
 - [x] 增加 Makefile
+- [x] 增加 smoke test
+- [x] 增加 GitHub Actions 自动测试
+- [x] 增加 CI 状态徽章
