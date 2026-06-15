@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "library.h"
 
 /* library.c 内部使用的函数声明（不对外暴露） */
 int findBookid(int id);
 void clearInputBuffer(FILE *stream);
-void readLine(FILE *stream, char str[], int size);
+int readLine(FILE *stream, char str[], int size);
 int inputDouble(const char *prompt, double *value);
 void inputString(const char *prompt, char str[], int size);
 void dfsBuyBook(int index, double sum, int bookCount);
@@ -27,16 +28,16 @@ void clearInputBuffer(FILE *stream)
     }
 }
 
-void readLine(FILE *stream, char str[], int size)
+/* 读取一行：成功返回 1；遇到输入结束(EOF)返回 0 */
+int readLine(FILE *stream, char str[], int size)
 {
     if (fgets(str, size, stream) != NULL)
     {
         str[strcspn(str, "\n")] = '\0';
+        return 1;
     }
-    else
-    {
-        str[0] = '\0';
-    }
+    str[0] = '\0';
+    return 0;
 }
 
 int inputInt(const char *prompt, int *value)
@@ -47,7 +48,11 @@ int inputInt(const char *prompt, int *value)
     while (1)
     {
         printf("%s", prompt);
-        readLine(stdin, line, sizeof(line));
+        if (readLine(stdin, line, sizeof(line)) == 0)
+        {
+            printf("\n检测到输入结束，程序退出。\n");
+            exit(0);
+        }
         if (strlen(line) == 0)
         {
             printf("输入不能为空，请重新输入。\n");
@@ -69,7 +74,11 @@ int inputDouble(const char *prompt, double *value)
     while (1)
     {
         printf("%s", prompt);
-        readLine(stdin, line, sizeof(line));
+        if (readLine(stdin, line, sizeof(line)) == 0)
+        {
+            printf("\n检测到输入结束，程序退出。\n");
+            exit(0);
+        }
         if (strlen(line) == 0)
         {
             printf("输入不能为空，请重新输入。\n");
@@ -88,7 +97,11 @@ void inputString(const char *prompt, char str[], int size)
     while (1)
     {
         printf("%s", prompt);
-        readLine(stdin, str, size);
+        if (readLine(stdin, str, size) == 0)
+        {
+            printf("\n检测到输入结束，程序退出。\n");
+            exit(0);
+        }
         if (strlen(str) == 0)
         {
             printf("输入不能为空，请重新输入。\n");
