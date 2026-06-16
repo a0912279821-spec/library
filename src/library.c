@@ -338,15 +338,31 @@ void loadBooksFromFile(void)
 {
     FILE *fp = fopen("books.txt", "r");
     int result;
+    int n;
     if (fp == NULL)
     {
+        return;//文件不存在：首次运行，正常启动，没有图书数据
+    }
+
+    //读取图书数量，必须是合法整数且在 0~max 范围内
+    if (fscanf(fp, "%d", &n) != 1 || n < 0 || n > max)
+    {
+        printf("books.txt 格式不正确，已忽略文件内容\n");
+        count = 0;
+        fclose(fp);
         return;
     }
-    fscanf(fp, "%d", &count);
     clearInputBuffer(fp);
-    for (int i = 0; i < count; i++)
+
+    for (int i = 0; i < n; i++)
     {
-        fscanf(fp, "%d", &books[i].id);
+        if (fscanf(fp, "%d", &books[i].id) != 1)
+        {
+            printf("books.txt 数据不完整，已忽略文件内容\n");
+            count = 0;
+            fclose(fp);
+            return;
+        }
         clearInputBuffer(fp);
         readLine(fp, books[i].name, sizeof(books[i].name));
         readLine(fp, books[i].author, sizeof(books[i].author));
@@ -358,10 +374,19 @@ void loadBooksFromFile(void)
                &books[i].recommend);
         if (result == 3)
         {
-            books[i].recommend = 0;
+            books[i].recommend = 0;//兼容没有 recommend 字段的旧格式
+        }
+        else if (result != 4)
+        {
+            printf("books.txt 数据不完整，已忽略文件内容\n");
+            count = 0;
+            fclose(fp);
+            return;
         }
         clearInputBuffer(fp);
     }
+
+    count = n;//全部记录都读取成功后，才提交图书数量
     fclose(fp);
 }
 
