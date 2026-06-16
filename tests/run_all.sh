@@ -13,6 +13,10 @@ echo "===== input_test ====="
 ./tests/input_test.sh
 
 echo ""
+echo "===== validation_test ====="
+./tests/validation_test.sh
+
+echo ""
 echo "===== file_test ====="
 ./tests/file_test.sh
 
