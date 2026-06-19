@@ -8,6 +8,9 @@ int findBookid(int id);
 void clearInputBuffer(FILE *stream);
 int readLine(FILE *stream, char str[], int size);
 int inputDouble(const char *prompt, double *value);
+int inputNonNegativeInt(const char *prompt, int *value, const char *name);
+int inputNonNegativeDouble(const char *prompt, double *value, const char *name);
+int inputRecommend(const char *prompt, int *value);
 void inputString(const char *prompt, char str[], int size);
 void dfsBuyBook(int index, double sum, int bookCount);
 
@@ -92,6 +95,45 @@ int inputDouble(const char *prompt, double *value)
     }
 }
 
+int inputNonNegativeInt(const char *prompt, int *value, const char *name)
+{
+    while (1)
+    {
+        inputInt(prompt, value);
+        if (*value >= 0)
+        {
+            return 1;
+        }
+        printf("%s不能小于0，请重新输入。\n", name);
+    }
+}
+
+int inputNonNegativeDouble(const char *prompt, double *value, const char *name)
+{
+    while (1)
+    {
+        inputDouble(prompt, value);
+        if (*value >= 0)
+        {
+            return 1;
+        }
+        printf("%s不能小于0，请重新输入。\n", name);
+    }
+}
+
+int inputRecommend(const char *prompt, int *value)
+{
+    while (1)
+    {
+        inputInt(prompt, value);
+        if (*value == 0 || *value == 1)
+        {
+            return 1;
+        }
+        printf("推荐状态只能输入 0 或 1，请重新输入。\n");
+    }
+}
+
 void inputString(const char *prompt, char str[], int size)
 {
     while (1)
@@ -135,9 +177,9 @@ void addBook(void)
     inputString("请输入图书名称:", books[count].name, sizeof(books[count].name));
     inputString("请输入作者名称:", books[count].author, sizeof(books[count].author));
     inputString("请输入出版社:", books[count].publisher, sizeof(books[count].publisher));
-    inputDouble("请输入价格:", &books[count].price);
-    inputInt("请输入图书总量:", &books[count].total);
-    inputInt("是否推荐(1.是 0.否): ", &books[count].recommend);
+    inputNonNegativeDouble("请输入价格:", &books[count].price, "价格");
+    inputNonNegativeInt("请输入图书总量:", &books[count].total, "图书总量");
+    inputRecommend("是否推荐(1.是 0.否): ", &books[count].recommend);
     books[count].stock = books[count].total;
     count++;
     saveBooksToFile();
@@ -245,10 +287,10 @@ void updateBook(void)
         inputString("请输入新的图书名称: ", books[index].name, sizeof(books[index].name));
         inputString("请输入新的作者名称: ", books[index].author, sizeof(books[index].author));
         inputString("请输入新的出版社: ", books[index].publisher, sizeof(books[index].publisher));
-        inputDouble("请输入新的价格: ", &books[index].price);
+        inputNonNegativeDouble("请输入新的价格: ", &books[index].price, "价格");
         while (1)
         {
-            inputInt("请输入新的图书总量: ", &newTotal);
+            inputNonNegativeInt("请输入新的图书总量: ", &newTotal, "图书总量");
             if (newTotal < borrowed)
             {
                 printf("新的总量(%d)不能小于已借出数量(%d)，请重新输入。\n", newTotal, borrowed);
@@ -257,7 +299,7 @@ void updateBook(void)
             break;
         }
         books[index].total = newTotal;
-        inputInt("是否推荐(1.是 0.否): ", &books[index].recommend);
+        inputRecommend("是否推荐(1.是 0.否): ", &books[index].recommend);
         books[index].stock = books[index].total - borrowed;
         saveBooksToFile();
         printf("图书信息修改成功\n");
